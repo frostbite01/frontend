@@ -49,7 +49,7 @@ const Header = ({ sidebarOpen, toggleSidebar }) => {
             
             {/* Title */}
             <div className="flex items-center">
-              <span className="text-lg font-semibold">Inventory System</span>
+              <span className="text-lg font-semibold">Welcome, </span>
             </div>
           </div>
 

@@ -24,6 +24,7 @@ import RouterList from './components/inventory/RouterList';
 import SoftwareList from './components/inventory/SoftwareList';
 import SwitchList from './components/inventory/SwitchList';
 import WirelessDeviceList from './components/inventory/WirelessDeviceList';
+import DocumentManagement from './components/documents/DocumentManagement';
 
 function App() {
   return (
@@ -36,28 +37,31 @@ function App() {
             
             <Route element={<PrivateRoute />}>
               <Route element={<Layout />}>
-                <Route index element={<Dashboard />} />
-                <Route path="dashboard" element={<Dashboard />} />
-                
-                <Route path="inventory">
-                  <Route index element={<Navigate to="/inventory/switches" replace />} />
-                  <Route path="access-points" element={<AccessPointList />} />
-                  <Route path="cctv-nvr" element={<CctvNvrList />} />
-                  <Route path="laptops" element={<LaptopList />} />
-                  <Route path="pcs" element={<PcList />} />
-                  <Route path="peripherals" element={<PeripheralList />} />
-                  <Route path="printers" element={<PrinterList />} />
-                  <Route path="routers" element={<RouterList />} />
-                  <Route path="software" element={<SoftwareList />} />
-                  <Route path="switches" element={<SwitchList />} />
-                  <Route path="wireless-devices" element={<WirelessDeviceList />} />
+                {/* Wrap admin-only routes */}
+                <Route element={<AdminRoute />}>
+                  <Route index element={<Dashboard />} />
+                  <Route path="dashboard" element={<Dashboard />} />
+                  
+                  <Route path="inventory">
+                    <Route index element={<Navigate to="/inventory/switches" replace />} />
+                    <Route path="access-points" element={<AccessPointList />} />
+                    <Route path="cctv-nvr" element={<CctvNvrList />} />
+                    <Route path="laptops" element={<LaptopList />} />
+                    <Route path="pcs" element={<PcList />} />
+                    <Route path="peripherals" element={<PeripheralList />} />
+                    <Route path="printers" element={<PrinterList />} />
+                    <Route path="routers" element={<RouterList />} />
+                    <Route path="software" element={<SoftwareList />} />
+                    <Route path="switches" element={<SwitchList />} />
+                    <Route path="wireless-devices" element={<WirelessDeviceList />} />
+                  </Route>
+                  
+                  <Route path="tasks" element={<TaskList />} />
+                  <Route path="admin/users" element={<UserManagement />} />
                 </Route>
-                
-                <Route path="tasks" element={<TaskList />} />
-                
-                <Route path="admin" element={<AdminRoute />}>
-                  <Route path="users" element={<UserManagement />} />
-                </Route>
+
+                {/* Keep documents route accessible to all authenticated users */}
+                <Route path="documents" element={<DocumentManagement />} />
               </Route>
             </Route>
             

@@ -19,7 +19,10 @@ import {
   ChevronRight,
   LogOut,
   LayoutDashboard,
-  CheckSquare
+  CheckSquare,
+  Shield,
+  Users2,
+  FolderOpen
 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useAuth } from '../../context/AuthContext';
@@ -80,7 +83,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar, mobile, onLinkClick }) => {
       initial={false}
     >
       <div className="flex h-16 items-center justify-between px-4">
-        <Link to="/dashboard" className="flex items-center space-x-2" onClick={closeSidebar}>
+        <Link to={isAdmin ? "/dashboard" : "/documents"} className="flex items-center space-x-2" onClick={closeSidebar}>
           <img src="/logoppa.png" alt="Logo" className="h-8 w-auto" />
           <span className="text-xl font-bold">ICT Hub</span>
         </Link>
@@ -91,59 +94,67 @@ const Sidebar = ({ sidebarOpen, closeSidebar, mobile, onLinkClick }) => {
 
       <div className="flex-1 overflow-y-auto py-4">
         <nav className="space-y-1 px-2">
-          <NavItem to="/" icon={LayoutDashboard} end>
-            Dashboard
-          </NavItem>
+          {/* Only show these items for admin */}
+          {isAdmin && (
+            <>
+              <NavItem to="/" icon={LayoutDashboard} end>
+                Dashboard
+              </NavItem>
+
+              <div className="pt-4">
+                <button
+                  className="flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  onClick={() => setInventoryOpen(!inventoryOpen)}
+                >
+                  <div className="flex items-center space-x-2">
+                    <Package className="h-5 w-5" />
+                    <span>Inventory</span>
+                  </div>
+                  {inventoryOpen ? (
+                    <ChevronDown className="h-4 w-4" />
+                  ) : (
+                    <ChevronRight className="h-4 w-4" />
+                  )}
+                </button>
+
+                {inventoryOpen && (
+                  <div className="mt-1 space-y-1 pl-6">
+                    {Object.entries(categoryConfigs).map(([key, config]) => (
+                      <NavItem key={key} to={`/inventory/${key}`} icon={config.icon} color={config.color}>
+                        {config.title}
+                      </NavItem>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-4">
+                <h4 className="mb-1 px-2 text-xs font-semibold text-muted-foreground">
+                  Tasks
+                </h4>
+                <NavItem to="/tasks" icon={CheckSquare}>
+                  Task Management
+                </NavItem>
+              </div>
+            </>
+          )}
 
           <div className="pt-4">
-            <button
-              className="flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-              onClick={() => setInventoryOpen(!inventoryOpen)}
-            >
-              <div className="flex items-center space-x-2">
-                <Package className="h-5 w-5" />
-                <span>Inventory</span>
-              </div>
-              {inventoryOpen ? (
-                <ChevronDown className="h-4 w-4" />
-              ) : (
-                <ChevronRight className="h-4 w-4" />
-              )}
-            </button>
-
-            {inventoryOpen && (
-              <div className="mt-1 space-y-1 pl-6">
-                {Object.entries(categoryConfigs).map(([key, config]) => (
-                  <NavItem key={key} to={`/inventory/${key}`} icon={config.icon} color={config.color}>
-                    {config.title}
-                  </NavItem>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="mt-4">
             <h4 className="mb-1 px-2 text-xs font-semibold text-muted-foreground">
-              Tasks
+              Administration
             </h4>
-            <NavItem to="/tasks" icon={CheckSquare}>
-              Task Management
-            </NavItem>
-          </div>
-
-          {isAdmin && (
-            <div className="pt-4">
-              <h4 className="mb-1 px-2 text-xs font-semibold text-muted-foreground">
-                Administration
-              </h4>
+            {isAdmin && (
               <NavItem to="/admin/users" icon={Users}>
                 User Management
               </NavItem>
-            </div>
-          )}
+            )}
+            <NavItem to="/documents" icon={FolderOpen}>
+              Documents
+            </NavItem>
+          </div>
         </nav>
       </div>
-
+      
       <div className="border-t p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">

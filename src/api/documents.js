@@ -1,0 +1,88 @@
+import { axiosWithAuth } from './auth';
+
+const API_URL = 'http://localhost:3000/api/documents';
+
+// Template APIs
+export const getTemplates = async () => {
+  try {
+    const response = await axiosWithAuth.get(`${API_URL}/templates`);
+    return response.data;
+  } catch (error) {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/login';
+    }
+    throw error;
+  }
+};
+
+export const uploadTemplate = async (file) => {
+  try {
+    const formData = new FormData();
+    formData.append('template', file);
+
+    const response = await axiosWithAuth.post(`${API_URL}/templates/upload`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getTemplateFields = async (templateName) => {
+  try {
+    const response = await axiosWithAuth.get(`${API_URL}/templates/${templateName}/fields`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fillTemplate = async (templateName, formData) => {
+  try {
+    const response = await axiosWithAuth.post(
+      `${API_URL}/templates/${templateName}/fill`,
+      formData,
+      { responseType: 'blob' }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Signed Document APIs
+export const uploadSignedDocument = async (file) => {
+  try {
+    const formData = new FormData();
+    formData.append('signedDocument', file);
+
+    const response = await axiosWithAuth.post(`${API_URL}/signed/upload`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getUserSignedDocuments = async () => {
+  try {
+    const response = await axiosWithAuth.get(`${API_URL}/signed/user`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const downloadSignedDocument = async (id) => {
+  try {
+    const response = await axiosWithAuth.get(`${API_URL}/signed/${id}`, {
+      responseType: 'blob'
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
