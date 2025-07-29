@@ -93,6 +93,8 @@ const SignedDocuments = () => {
         <TableHeader>
           <TableRow>
             <TableHead>Document Name</TableHead>
+            <TableHead>Uploaded By</TableHead> 
+            <TableHead>Role</TableHead>
             <TableHead>Upload Date</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
@@ -101,8 +103,10 @@ const SignedDocuments = () => {
           {documents.map((doc) => (
             <TableRow key={doc.id}>
               <TableCell>{doc.fileName}</TableCell>
-                <TableCell>{new Date(doc.uploadedAt).toLocaleDateString()}</TableCell>
-                  <TableCell>
+              <TableCell>{doc.name}</TableCell>
+              <TableCell>{doc.role}</TableCell>
+              <TableCell>{new Date(doc.uploadedAt).toLocaleDateString()}</TableCell>
+              <TableCell>
                 <Button
                   variant="ghost"
                   size="sm"
