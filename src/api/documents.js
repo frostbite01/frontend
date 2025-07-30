@@ -16,11 +16,8 @@ export const getTemplates = async () => {
   }
 };
 
-export const uploadTemplate = async (file) => {
+export const uploadTemplate = async (formData) => {
   try {
-    const formData = new FormData();
-    formData.append('template', file);
-
     const response = await axiosWithAuth.post(`${API_URL}/templates/upload`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
@@ -30,22 +27,49 @@ export const uploadTemplate = async (file) => {
   }
 };
 
-export const getTemplateFields = async (templateName) => {
+export const getTemplateFields = async (templateId) => {
   try {
-    const response = await axiosWithAuth.get(`${API_URL}/templates/${templateName}/fields`);
+    console.log('Fetching fields for template ID:', templateId);
+    console.log('API URL:', `${API_URL}/templates/${templateId}/fields`);
+    const response = await axiosWithAuth.get(`${API_URL}/templates/${templateId}/fields`);
+    console.log('Fields API response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching template fields:', error);
+    throw error;
+  }
+};
+
+export const fillTemplate = async (templateId, formData) => {
+  try {
+    console.log('Filling template ID:', templateId, 'with data:', formData);
+    const response = await axiosWithAuth.post(
+      `${API_URL}/templates/${templateId}/fill`,
+      formData,
+      { responseType: 'blob' }
+    );
+    console.log('Fill template response:', response);
+    return response.data;
+  } catch (error) {
+    console.error('Error filling template:', error);
+    throw error;
+  }
+};
+
+export const downloadTemplate = async (templateId) => {
+  try {
+    const response = await axiosWithAuth.get(`${API_URL}/templates/${templateId}/download`, {
+      responseType: 'blob'
+    });
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const fillTemplate = async (templateName, formData) => {
+export const deleteTemplate = async (templateId) => {
   try {
-    const response = await axiosWithAuth.post(
-      `${API_URL}/templates/${templateName}/fill`,
-      formData,
-      { responseType: 'blob' }
-    );
+    const response = await axiosWithAuth.delete(`${API_URL}/templates/${templateId}`);
     return response.data;
   } catch (error) {
     throw error;

@@ -1,7 +1,6 @@
 import * as React from "react"
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
 import { cn } from "../../lib/utils"
-import { buttonVariants } from "./button"
 
 const AlertDialog = AlertDialogPrimitive.Root
 
@@ -41,7 +40,10 @@ const AlertDialogHeader = ({
   ...props
 }) => (
   <div
-    className={cn("flex flex-col space-y-2 text-center sm:text-left", className)}
+    className={cn(
+      "flex flex-col space-y-2 text-center sm:text-left",
+      className
+    )}
     {...props}
   />
 )
@@ -52,7 +54,10 @@ const AlertDialogFooter = ({
   ...props
 }) => (
   <div
-    className={cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className)}
+    className={cn(
+      "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
+      className
+    )}
     {...props}
   />
 )
@@ -79,7 +84,10 @@ AlertDialogDescription.displayName = AlertDialogPrimitive.Description.displayNam
 const AlertDialogAction = React.forwardRef(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Action
     ref={ref}
-    className={cn(buttonVariants(), className)}
+    className={cn(
+      "inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+      className
+    )}
     {...props}
   />
 ))
@@ -88,7 +96,10 @@ AlertDialogAction.displayName = AlertDialogPrimitive.Action.displayName
 const AlertDialogCancel = React.forwardRef(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Cancel
     ref={ref}
-    className={cn(buttonVariants({ variant: "outline" }), "mt-2 sm:mt-0", className)}
+    className={cn(
+      "mt-2 inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-semibold ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 sm:mt-0",
+      className
+    )}
     {...props}
   />
 ))
