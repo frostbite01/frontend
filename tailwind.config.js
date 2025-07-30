@@ -59,7 +59,19 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backdropBlur: {
+        'none': 'none',
+        'sm': '4px',
+        'DEFAULT': '8px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '24px',
+        '2xl': '40px',
+        '3xl': '64px',
+      }
     },
   },
-  plugins: [],
-} 
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
+}

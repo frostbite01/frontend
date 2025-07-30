@@ -88,3 +88,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+[data-state="open"].fixed.inset-0.z-50,
+[data-radix-dialog-overlay] {
+  background: transparent !important;
+  backdrop-filter: blur(1px) !important;
+  -webkit-backdrop-filter: blur(1px) !important;
+}

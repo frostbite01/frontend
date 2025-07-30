@@ -141,7 +141,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar, mobile, onLinkClick }) => {
 
           <div className="pt-4">
             <h4 className="mb-1 px-2 text-xs font-semibold text-muted-foreground">
-              Administration
+              Services
             </h4>
             {isAdmin && (
               <NavItem to="/admin/users" icon={Users}>
@@ -149,7 +149,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar, mobile, onLinkClick }) => {
               </NavItem>
             )}
             <NavItem to="/documents" icon={FolderOpen}>
-              Documents
+              Services
             </NavItem>
           </div>
         </nav>
