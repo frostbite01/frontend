@@ -52,6 +52,16 @@ export const fillTemplate = async (templateName, formData) => {
   }
 };
 
+export const deleteTemplate = async (templateId) => {
+  try {
+    const response = await axiosWithAuth.delete(`${API_URL}/templates/${templateId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 // Signed Document APIs
 export const uploadSignedDocument = async (file) => {
   try {
