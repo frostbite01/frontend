@@ -24,7 +24,7 @@ import RouterList from './components/inventory/RouterList';
 import SoftwareList from './components/inventory/SoftwareList';
 import SwitchList from './components/inventory/SwitchList';
 import WirelessDeviceList from './components/inventory/WirelessDeviceList';
-import DocumentManagement from './components/documents/DocumentManagement';
+import DocumentsPage from './components/documents/DocumentsPage';
 
 function App() {
   return (
@@ -61,7 +61,7 @@ function App() {
                 </Route>
 
                 {/* Keep documents route accessible to all authenticated users */}
-                <Route path="documents" element={<DocumentManagement />} />
+                <Route path="/documents" element={<DocumentsPage />} />
               </Route>
             </Route>
             
