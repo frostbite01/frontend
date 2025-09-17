@@ -6,31 +6,23 @@ import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
 import { ScrollArea } from "../ui/scroll-area";
 import { useToast } from "../ui/use-toast";
-import { submitWifiRequest } from '../../api/forms';
+import { submitSoftwareRequest } from '../../api/forms';
 
-const WifiRequestForm = ({ onClose }) => {
+const SoftwareRequestForm = ({ onClose }) => {
   const [formData, setFormData] = useState({
-    pengguna_baru: '',
-    pergantian_mac: '',
     komputer: '',
     laptop: '',
     handphone: '',
-    nomor: '',
     nama: '',
     nrp: '',
     department: '',
     jabatan: '',
-    mess: '',
-    diluar: '',
-    alamat: '',
     brand: '',
     type: '',
     mac: '',
-    serial: '',
+    sn: '',
     keperluan: '',
-    hari: '',
-    te: '',
-    diketahui: ''
+    disetujui: ''
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,20 +37,12 @@ const WifiRequestForm = ({ onClose }) => {
     }));
   };
 
-  const handleLocationChange = (location) => {
-    setFormData(prev => ({
-      ...prev,
-      mess: location === 'mess' ? '✓' : '',
-      diluar: location === 'diluar' ? '✓' : ''
-    }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      const response = await submitWifiRequest(formData);
+      const response = await submitSoftwareRequest(formData);
       toast({
         title: "Success",
         description: `Request submitted with serial number: ${response.serial_number}`,
@@ -78,38 +62,11 @@ const WifiRequestForm = ({ onClose }) => {
   return (
     <DialogContent className="max-w-3xl max-h-[90vh]">
       <DialogHeader>
-        <DialogTitle>Wi-Fi Access Request Form</DialogTitle>
+        <DialogTitle>Software Installation Request Form</DialogTitle>
       </DialogHeader>
 
       <ScrollArea className="h-[70vh] pr-4">
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Request Type */}
-          <div className="space-y-4">
-            <Label>Request Type</Label>
-            <div className="flex space-x-4">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="pengguna_baru"
-                  checked={formData.pengguna_baru === '✓'}
-                  onCheckedChange={(checked) => 
-                    setFormData(prev => ({ ...prev, pengguna_baru: checked ? '✓' : '' }))
-                  }
-                />
-                <label htmlFor="pengguna_baru">New User</label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="pergantian_mac"
-                  checked={formData.pergantian_mac === '✓'}
-                  onCheckedChange={(checked) => 
-                    setFormData(prev => ({ ...prev, pergantian_mac: checked ? '✓' : '' }))
-                  }
-                />
-                <label htmlFor="pergantian_mac">MAC Change</label>
-              </div>
-            </div>
-          </div>
-
           {/* Device Type */}
           <div className="space-y-4">
             <Label>Device Type</Label>
@@ -131,14 +88,6 @@ const WifiRequestForm = ({ onClose }) => {
           <div className="space-y-4">
             <h3 className="font-medium">User Information</h3>
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="nomor">Phone Number</Label>
-                <Input
-                  id="nomor"
-                  value={formData.nomor}
-                  onChange={(e) => setFormData(prev => ({ ...prev, nomor: e.target.value }))}
-                />
-              </div>
               <div className="space-y-2">
                 <Label htmlFor="nama">Full Name *</Label>
                 <Input
@@ -178,37 +127,6 @@ const WifiRequestForm = ({ onClose }) => {
             </div>
           </div>
 
-          {/* Location */}
-          <div className="space-y-4">
-            <h3 className="font-medium">Location</h3>
-            <div className="flex space-x-4 mb-2">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="mess"
-                  checked={formData.mess === '✓'}
-                  onCheckedChange={() => handleLocationChange('mess')}
-                />
-                <label htmlFor="mess">Mess</label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="diluar"
-                  checked={formData.diluar === '✓'}
-                  onCheckedChange={() => handleLocationChange('diluar')}
-                />
-                <label htmlFor="diluar">Outside</label>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="alamat">Address</Label>
-              <Input
-                id="alamat"
-                value={formData.alamat}
-                onChange={(e) => setFormData(prev => ({ ...prev, alamat: e.target.value }))}
-              />
-            </div>
-          </div>
-
           {/* Device Details */}
           <div className="space-y-4">
             <h3 className="font-medium">Device Details</h3>
@@ -241,11 +159,11 @@ const WifiRequestForm = ({ onClose }) => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="serial">Serial Number *</Label>
+                <Label htmlFor="sn">Serial Number *</Label>
                 <Input
-                  id="serial"
-                  value={formData.serial}
-                  onChange={(e) => setFormData(prev => ({ ...prev, serial: e.target.value }))}
+                  id="sn"
+                  value={formData.sn}
+                  onChange={(e) => setFormData(prev => ({ ...prev, sn: e.target.value }))}
                   required
                 />
               </div>
@@ -257,7 +175,7 @@ const WifiRequestForm = ({ onClose }) => {
             <h3 className="font-medium">Additional Information</h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="keperluan">Tujuan *</Label>
+                <Label htmlFor="keperluan">Purpose *</Label>
                 <Input
                   id="keperluan"
                   value={formData.keperluan}
@@ -266,27 +184,11 @@ const WifiRequestForm = ({ onClose }) => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="hari">Hari Pengajuan</Label>
+                <Label htmlFor="disetujui">Approved By</Label>
                 <Input
-                  id="hari"
-                  value={formData.hari}
-                  onChange={(e) => setFormData(prev => ({ ...prev, hari: e.target.value }))}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="te">Tanggal</Label>
-                <Input
-                  id="te"
-                  value={formData.te}
-                  onChange={(e) => setFormData(prev => ({ ...prev, te: e.target.value }))}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="diketahui">Diketahui Oleh</Label>
-                <Input
-                  id="diketahui"
-                  value={formData.diketahui}
-                  onChange={(e) => setFormData(prev => ({ ...prev, diketahui: e.target.value }))}
+                  id="disetujui"
+                  value={formData.disetujui}
+                  onChange={(e) => setFormData(prev => ({ ...prev, disetujui: e.target.value }))}
                 />
               </div>
             </div>
@@ -306,4 +208,4 @@ const WifiRequestForm = ({ onClose }) => {
   );
 };
 
-export default WifiRequestForm;
+export default SoftwareRequestForm;

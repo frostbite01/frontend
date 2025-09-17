@@ -55,7 +55,7 @@ export const getMyFormSubmissions = async () => {
         formType: 'WIFI_REQUEST',
         formName: 'Wi-Fi Access Request',
         serial_number: req.serial_number,
-        status: req.is_verified ? 'Verified' : 'Pending',
+        status: req.status,
         date: req.date,
         // Form specific data
         device_type: [
@@ -79,6 +79,46 @@ submitter: {
     return [];
   } catch (error) {
     console.error('Error fetching form submissions:', error);
+    throw error;
+  }
+};
+
+export const downloadFilledDocx = async (submissionId) => {
+  try {
+    const response = await axiosWithAuth.get(
+      `${API_URL}/form/wifi/${submissionId}`,
+      { responseType: 'blob' } // 👈 important for binary download
+    );
+
+    const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `wifi_request_${submissionId}.docx`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Error downloading DOCX:', error);
+    throw error;
+  }
+};
+
+export const submitCCTVRequest = async (formData) => {
+  try {
+    const response = await axiosWithAuth.post('/api/cctv-requests', formData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const submitSoftwareRequest = async (formData) => {
+  try {
+    const response = await axiosWithAuth.post('/api/software-requests', formData);
+    return response.data;
+  } catch (error) {
     throw error;
   }
 };
