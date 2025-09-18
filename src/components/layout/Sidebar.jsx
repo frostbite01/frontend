@@ -22,7 +22,8 @@ import {
   CheckSquare,
   Shield,
   Users2,
-  FolderOpen
+  FolderOpen,
+  FileText
 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useAuth } from '../../context/AuthContext';
@@ -134,6 +135,15 @@ const Sidebar = ({ sidebarOpen, closeSidebar, mobile, onLinkClick }) => {
                 </h4>
                 <NavItem to="/tasks" icon={CheckSquare}>
                   Task Management
+                </NavItem>
+              </div>
+
+              <div className="pt-4">
+                <h4 className="mb-1 px-2 text-xs font-semibold text-muted-foreground">
+                  Form Management
+                </h4>
+                <NavItem to="/admin/submissions" icon={FileText}>
+                  Form Submissions
                 </NavItem>
               </div>
             </>

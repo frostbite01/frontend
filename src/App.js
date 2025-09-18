@@ -11,6 +11,7 @@ import NotFound from './components/common/NotFound';
 import PrivateRoute from './components/common/PrivateRoute';
 import AdminRoute from './components/common/AdminRoute';
 import UserManagement from './components/admin/UserManagement';
+import AdminFormSubmissionHistory from './components/admin/AdminFormSubmissionHistory';
 import { Toaster } from "./components/ui/use-toast";
 
 // Import individual inventory list components
@@ -41,6 +42,9 @@ function App() {
                 <Route element={<AdminRoute />}>
                   <Route index element={<Dashboard />} />
                   <Route path="dashboard" element={<Dashboard />} />
+                  
+                  {/* Add the new admin submissions route */}
+                  <Route path="admin/submissions" element={<AdminFormSubmissionHistory />} />
                   
                   <Route path="inventory">
                     <Route index element={<Navigate to="/inventory/switches" replace />} />

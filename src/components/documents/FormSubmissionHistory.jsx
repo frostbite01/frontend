@@ -7,7 +7,7 @@ import { Button } from "../ui/button";
 import { getMyFormSubmissions } from '../../api/forms';
 import { downloadFilledDocx } from '../../api/forms';
 
-const FORM_TYPES = {
+export const FORM_TYPES = {
   SOFTWARE_HARDWARE_REQUEST: {
     label: 'Pengadaan Software dan Hardware',
     columns: ['No Surat', 'Tanggal', 'Jenis Pengadaan', 'Deskripsi', 'Pemohon', 'Departemen', 'Status', 'Actions']
@@ -58,7 +58,7 @@ const FORM_TYPES = {
   }
 };
 
-const STATUS_STYLES = {
+export const STATUS_STYLES = {
   'Pending': 'bg-yellow-100 text-yellow-800',
   'Verified': 'bg-green-100 text-green-800',
   'Rejected': 'bg-red-100 text-red-800',
